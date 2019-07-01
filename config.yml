@@ -1,0 +1,43 @@
+mainRepeatingSchedule: 1
+Message:
+ wandCannotFindDragon: "&cCannot find Ender Dragon. Dragon may either no longer exist or is too far away."
+ wandDragonUpdated: "&aSelected Dragon has been updated."
+ dragonAIToggle: "&dDragon's AI has been set to {C}%result%(&a|%|&c)&d."
+ dragonHealthSet: "&dDragon's Max Health has been set to &c%result%&d."
+ dragonBarTitleSet: "&dDragon's Bar Title has been set to %result%&d."
+ dragonNameSet: "&dDragon's name has been set to %result%&d."
+ dragonExpAdded: "&dSuccessfully added &a%result%XP&d."
+ dragonExpSetSlot: "&dSlot &6%slot% &dhas been set to &a%result%XP&d."
+ typeIntegerDragonHealth: "&dType in chat an integer value to set Dragon's Health."
+ typeStringDragonName: "&dType in chat to set Dragon's Name."
+ typeStringDragonBarTitle: "&dType in chat to set Dragon's Boss Bar Title."
+ typeIntegerAddDragonExpDrop: "&dType in chat an integer value to add exp."
+ typeIntegerSetDragonExpDrop: "&dType in chat an integer Value to set exp to slot."
+ errorValueNotInteger: "&cERROR: %value% is not a number."
+DefaultEnderDragon:
+  Name: Ender Dragon
+  AI: true
+  Glow: RESET
+  Health: 200.0
+  XPDropRadius: 10
+  XPDrops:
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 2000
+  Bar:
+    Title: '&fEnder Dragon'
+    Color: PINK
+    Style: SOLID
+    Visible: true
+    Flag:
+      CREATE_FOG: true
+      DARKEN_SKY: false
+      PLAY_BOSS_MUSIC: true
