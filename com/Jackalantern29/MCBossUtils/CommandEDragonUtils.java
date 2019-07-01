@@ -11,6 +11,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -25,10 +26,30 @@ public class CommandEDragonUtils implements CommandExecutor {
 			if(args.length == 0) {
 				if(sender instanceof Player) {
 					Player player = (Player)sender;
-					TextComponent component = new TextComponent("§6/" + label + " wand");
-					component.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("Use this wand to select an Ender Dragon.").create()));
-					component.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/edu wand"));
-					player.spigot().sendMessage(component);
+					BaseComponent[] builder;
+					TextComponent bossUtils = new TextComponent("§6MCBossUtils");
+					bossUtils.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/mcbossutils.68681/"));
+					bossUtils.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("§dVersion: §6" + Main.getInstance().getDescription().getVersion() + "\n§dAuthor: §6" + Main.getInstance().getDescription().getAuthors().get(0) + "\n§dAPI Version: §6" + Main.getInstance().getDescription().getAPIVersion()).create()));
+					builder = new ComponentBuilder("§8[").append(bossUtils).append("§8]").event(new ClickEvent(ClickEvent.Action.OPEN_FILE, null)).event(new HoverEvent(Action.SHOW_TEXT, null)).create();
+					player.spigot().sendMessage(builder);
+					
+					TextComponent wand = new TextComponent("§d/" + label + " wand");
+					wand.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("§dUse this wand to select an Ender Dragon created with this plugin.").create()));
+					wand.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/edu wand"));
+					builder = new ComponentBuilder(wand).append(" §8- §7Get a wand to attatch to a Dragon.").event(new ClickEvent(ClickEvent.Action.OPEN_FILE, null)).event(new HoverEvent(Action.SHOW_TEXT, null)).create();
+					player.spigot().sendMessage(builder);
+					
+					TextComponent spawn = new TextComponent("§d/" + label + " spawn");
+					spawn.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("§dSpawn an Ender Dragon. Use the wand to configure the Ender Dragon.").create()));
+					spawn.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/edu spawn"));
+					builder = new ComponentBuilder(spawn).append(" §8- §7Spawn an Ender Dragon.").event(new ClickEvent(ClickEvent.Action.OPEN_FILE, null)).event(new HoverEvent(Action.SHOW_TEXT, null)).create();
+					player.spigot().sendMessage(builder);
+					
+					TextComponent removeallnear = new TextComponent("§d/" + label + " removeallnear");
+					removeallnear.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("§dRemove all Ender Dragons currently around the player that executed this command.").create()));
+					removeallnear.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/edu removeallnear"));
+					builder = new ComponentBuilder(removeallnear).append(" §8- §7Remove all Ender Dragons nearby.").event(new ClickEvent(ClickEvent.Action.OPEN_FILE, null)).event(new HoverEvent(Action.SHOW_TEXT, null)).create();
+					player.spigot().sendMessage(builder);
 				} else {
 					sender.sendMessage("/" + label + " wand");
 					sender.sendMessage("/" + label + " spawn");

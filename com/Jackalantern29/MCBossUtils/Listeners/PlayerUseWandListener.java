@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.Jackalantern29.MCBossUtils.EInventories;
 import com.Jackalantern29.MCBossUtils.ItemOptions;
+import com.Jackalantern29.MCBossUtils.MCBConfig;
 import com.Jackalantern29.MCBossUtils.MCBEnderDragon;
 
 public class PlayerUseWandListener implements Listener {
@@ -41,7 +42,7 @@ public class PlayerUseWandListener implements Listener {
 				if(dragon != null) {
 					new EInventories(player, new MCBEnderDragon(dragon)).openWandMenu();
 				} else
-					player.sendMessage("§cCannot find Entity. Entity may no longer exist.");
+					player.sendMessage(MCBConfig.getMessage("wandCannotFindDragon"));
 			}
 		}
 	}
@@ -61,7 +62,7 @@ public class PlayerUseWandListener implements Listener {
 						if(!dragon.doesDragonExistinConfig())
 							dragon.setup();
 						dragon.getBossBar().setVisible(false);
-						player.sendMessage("§aYou have updated the Ender Dragon Wand.");
+						player.sendMessage(MCBConfig.getMessage("wandDragonUpdated"));
 					}
 				}
 			}

@@ -13,9 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BossBar;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EnderDragon;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,6 +22,7 @@ import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
+import com.Jackalantern29.MCBossUtils.Listeners.EnderDragonListeners;
 import com.Jackalantern29.MCBossUtils.Listeners.PlayerUseWandListener;
 
 public class Main extends JavaPlugin implements Listener {
@@ -36,8 +35,6 @@ public class Main extends JavaPlugin implements Listener {
 		plugin = this;
 
 		File configFile = new File(getDataFolder() + "/config.yml"); 
-		@SuppressWarnings("unused")
-		YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 		if(!configFile.exists()) {
 			saveDefaultConfig();			
 		} else {
@@ -54,6 +51,7 @@ public class Main extends JavaPlugin implements Listener {
 		getCommand("edragonutils").setExecutor(new CommandEDragonUtils());
 		getServer().getPluginManager().registerEvents(new PlayerUseWandListener(), this);
 		getServer().getPluginManager().registerEvents(new EInventories(), this);
+		getServer().getPluginManager().registerEvents(new EnderDragonListeners(), this);
 		getServer().getPluginManager().registerEvents(this, this);
 		
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {	
@@ -95,10 +93,10 @@ public class Main extends JavaPlugin implements Listener {
 							if(!dragon.getBarFlag(BarFlag.CREATE_FOG) && bar.hasFlag(BarFlag.CREATE_FOG)) bar.removeFlag(BarFlag.CREATE_FOG);
 							if(!dragon.getBarFlag(BarFlag.DARKEN_SKY) && bar.hasFlag(BarFlag.DARKEN_SKY)) bar.removeFlag(BarFlag.DARKEN_SKY);
 							if(!dragon.getBarFlag(BarFlag.PLAY_BOSS_MUSIC) && bar.hasFlag(BarFlag.PLAY_BOSS_MUSIC)) bar.removeFlag(BarFlag.PLAY_BOSS_MUSIC);
+							dragon.dragonSetAI(dragon.hasAI());
 //							if(dragon.getBossBar().isVisible()) {
 //								bar.setVisible(false);
 //							}
-							
 							if(players.getNearbyEntities(149, 256, 149).contains(Bukkit.getEntity(uuids)))
 								bar.addPlayer(players);
 							else
@@ -119,14 +117,18 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-		}, 0l, 1l);
+		}, 0l, MCBConfig.getConfig().getInt("mainRepeatingScheduler"));
 	}
 	
 	@Override
 	public void onDisable() {
 		if(uuidsLocs.keySet() != null)
 			for(UUID uuids : uuidsLocs.keySet()) {
-				MCBEnderDragon.saveDragonCurrentLocation(uuids, uuidsLocs.get(uuids));
+				uuidsLocs.get(uuids).getChunk().setForceLoaded(true);
+				MCBEnderDragon dragon = new MCBEnderDragon((EnderDragon)Bukkit.getEntity(uuids));
+				dragon.dragonSetAI(false);
+				MCBEnderDragon.saveDragonCurrentLocation(uuids, dragon.getLocation());
+				uuidsLocs.get(uuids).getChunk().setForceLoaded(false);
 			}
 	}
 	
@@ -142,17 +144,21 @@ public class Main extends JavaPlugin implements Listener {
 				for(UUID uuids : MCBEnderDragon.listBosses()) {
 					MCBEnderDragon.getDragonSavedLocation(uuids).getChunk().setForceLoaded(true);
 					MCBEnderDragon dragon = new MCBEnderDragon((EnderDragon) Bukkit.getEntity(uuids));
-					dragon.setAI(false);
-					dragon.getDragon().teleport(new Location(Bukkit.getWorlds().get(0), 0, 250, 0));
-					Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-						
-						@Override
-						public void run() {
-							dragon.getDragon().teleport(new Location(Bukkit.getWorlds().get(2), 0, 100 + new Random().nextInt(50), 0));
-							dragon.setAI(true);
-							MCBEnderDragon.getDragonSavedLocation(uuids).getChunk().setForceLoaded(false);
-						}
-					}, 20l);
+					if(Bukkit.getEntity(uuids) != null) {
+						dragon.getDragon().teleport(new Location(Bukkit.getWorlds().get(0), 0, 250, 0));
+						Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+							
+							@Override
+							public void run() {
+								dragon.getDragon().teleport(new Location(Bukkit.getWorlds().get(2), 0, 100 + new Random().nextInt(50), 0));
+								MCBEnderDragon.getDragonSavedLocation(uuids).getChunk().setForceLoaded(false);
+							}
+						}, 20l);						
+					} else {
+						Bukkit.getConsoleSender().sendMessage("");
+						Bukkit.getConsoleSender().sendMessage("[MCBOSSUTILS] [ERROR] Could not find saved Ender Dragons in The End world.");
+						Bukkit.getConsoleSender().sendMessage("");
+					}
 				}
 			}
 		}
@@ -167,17 +173,21 @@ public class Main extends JavaPlugin implements Listener {
 					for(UUID uuids : MCBEnderDragon.listBosses()) {
 						MCBEnderDragon.getDragonSavedLocation(uuids).getChunk().setForceLoaded(true);
 						MCBEnderDragon dragon = new MCBEnderDragon((EnderDragon) Bukkit.getEntity(uuids));
-						dragon.setAI(false);
-						dragon.getDragon().teleport(new Location(Bukkit.getWorlds().get(0), 0, 250, 0));
-						Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-							
-							@Override
-							public void run() {
-								dragon.getDragon().teleport(new Location(Bukkit.getWorlds().get(2), 0, 100 + new Random().nextInt(50), 0));
-								dragon.setAI(true);
-								MCBEnderDragon.getDragonSavedLocation(uuids).getChunk().setForceLoaded(false);
-							}
-						}, 20l);
+						if(Bukkit.getEntity(uuids) != null) {
+							dragon.getDragon().teleport(new Location(Bukkit.getWorlds().get(0), 0, 250, 0));
+							Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+								
+								@Override
+								public void run() {
+									dragon.getDragon().teleport(new Location(Bukkit.getWorlds().get(2), 0, 100 + new Random().nextInt(50), 0));
+									MCBEnderDragon.getDragonSavedLocation(uuids).getChunk().setForceLoaded(false);
+								}
+							}, 20l);						
+						} else {
+							Bukkit.getConsoleSender().sendMessage("");
+							Bukkit.getConsoleSender().sendMessage("[MCBOSSUTILS] [ERROR] Could not find saved Ender Dragons in The End world.");
+							Bukkit.getConsoleSender().sendMessage("");
+						}
 					}
 				}
 			}
