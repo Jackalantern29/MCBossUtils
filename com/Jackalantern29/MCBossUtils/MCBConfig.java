@@ -19,6 +19,9 @@ public class MCBConfig {
 	public static Object getDefaultEnderDragon(String object) {
 		return getConfig().get("DefaultEnderDragon." + object);
 	}
+	public static Object getDefaultWither(String object) {
+		return getConfig().get("DefaultWither." + object);
+	}
 	public static String getPrefix() {
 		return prefix;
 	}

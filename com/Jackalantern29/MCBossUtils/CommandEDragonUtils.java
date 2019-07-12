@@ -48,7 +48,7 @@ public class CommandEDragonUtils implements CommandExecutor {
 					TextComponent removeallnear = new TextComponent("§d/" + label + " removeallnear");
 					removeallnear.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("§dRemove all Ender Dragons currently around the player that executed this command.").create()));
 					removeallnear.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/edu removeallnear"));
-					builder = new ComponentBuilder(removeallnear).append(" §8- §7Remove all Ender Dragons nearby.").event(new ClickEvent(ClickEvent.Action.OPEN_FILE, null)).event(new HoverEvent(Action.SHOW_TEXT, null)).create();
+					builder = new ComponentBuilder(removeallnear).append(" §8- §7Remove all nearby Ender Dragons.").event(new ClickEvent(ClickEvent.Action.OPEN_FILE, null)).event(new HoverEvent(Action.SHOW_TEXT, null)).create();
 					player.spigot().sendMessage(builder);
 				} else {
 					sender.sendMessage("/" + label + " wand");
@@ -73,6 +73,7 @@ public class CommandEDragonUtils implements CommandExecutor {
 						return true;
 					} else if(args[0].equalsIgnoreCase("removeallnear")) {
 						for(EnderDragon dragons : player.getWorld().getEntitiesByClass(EnderDragon.class)) {
+							dragons.setAI(true);
 							dragons.setPhase(Phase.DYING);
 						}
 						return true;

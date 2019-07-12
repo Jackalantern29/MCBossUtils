@@ -39,9 +39,12 @@ public class MCBEnderDragon {
 	public void setup() {
 		dragon.setPhase(Phase.CIRCLING);
 		config.set(dragon.getUniqueId().toString() + " (EnderDragon).Name", ((String) MCBConfig.getDefaultEnderDragon("Name")).replace("&", "§"));
+		dragon.setCustomName(((String)MCBConfig.getDefaultEnderDragon("Name")).equals(dragon.getName()) ? null : ((String)MCBConfig.getDefaultEnderDragon("Name")));
 		config.set(dragon.getUniqueId().toString() + " (EnderDragon).AI", MCBConfig.getDefaultEnderDragon("AI"));
 		config.set(dragon.getUniqueId().toString() + " (EnderDragon).Glow", MCBConfig.getDefaultEnderDragon("Glow"));
 		config.set(dragon.getUniqueId().toString() + " (EnderDragon).Health", MCBConfig.getDefaultEnderDragon("Health"));
+		this.setMaxHealth(Double.valueOf(MCBConfig.getDefaultEnderDragon("Health") + ""));
+		dragon.setHealth(Double.valueOf(MCBConfig.getDefaultEnderDragon("Health") + ""));
 		config.set(dragon.getUniqueId().toString() + " (EnderDragon).XPDropRadius", MCBConfig.getDefaultEnderDragon("XPDropRadius"));
 		config.set(dragon.getUniqueId().toString() + " (EnderDragon).XPDrops", MCBConfig.getDefaultEnderDragon("XPDrops"));
 		config.set(dragon.getUniqueId().toString() + " (EnderDragon).Bar.Title", ((String) MCBConfig.getDefaultEnderDragon("Bar.Title")).replace("&", "§"));

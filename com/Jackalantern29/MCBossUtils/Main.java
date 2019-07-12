@@ -15,6 +15,7 @@ import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -49,9 +50,11 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}
 		getCommand("edragonutils").setExecutor(new CommandEDragonUtils());
+		getCommand("witherutils").setExecutor(new CommandWitherUtils());
 		getServer().getPluginManager().registerEvents(new PlayerUseWandListener(), this);
-		getServer().getPluginManager().registerEvents(new EInventories(), this);
+		getServer().getPluginManager().registerEvents(new EnderDragonInventories(), this);
 		getServer().getPluginManager().registerEvents(new EnderDragonListeners(), this);
+		getServer().getPluginManager().registerEvents(new WitherInventories(), this);
 		getServer().getPluginManager().registerEvents(this, this);
 		
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {	
@@ -113,6 +116,13 @@ public class Main extends JavaPlugin implements Listener {
 								MCBEnderDragon.saveDragonCurrentLocation(uuids, uuidsLocs.get(uuids));
 								uuidsLocs.remove(uuids);								
 							}
+						}
+					}
+					for(UUID uuids : MCBWither.listBosses()) {
+						if(Bukkit.getEntity(uuids) != null) {
+							MCBWither wither = new MCBWither((Wither)Bukkit.getEntity(uuids));
+							board.getTeam("MBU" + wither.getGlowColor().name().toLowerCase()).addEntry(uuids.toString());
+							wither.setGlowing(wither.getGlowColor() != ChatColor.RESET ? true : false);
 						}
 					}
 				}
