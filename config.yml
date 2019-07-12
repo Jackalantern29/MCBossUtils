@@ -13,6 +13,20 @@ Message:
  typeStringDragonBarTitle: "&dType in chat to set Dragon's Boss Bar Title."
  typeIntegerAddDragonExpDrop: "&dType in chat an integer value to add exp."
  typeIntegerSetDragonExpDrop: "&dType in chat an integer Value to set exp to slot."
+ 
+ wandCannotFindWither: "&cCannot find Wither. Wither may either no longer exist or is too far away."
+ wandWitherUpdated: "&aSelected Wither has been updated."
+ witherAIToggle: "&dWither's AI has been set to {C}%result%(&a|%|&c)&d."
+ witherHealthSet: "&dWither's Max Health has been set to &c%result%&d."
+ witherBarTitleSet: "&dWither's Bar Title has been set to %result%&d."
+ witherNameSet: "&dWither's name has been set to %result%&d."
+ witherExpAdded: "&dSuccessfully added &a%result%XP&d."
+ witherExpSetSlot: "&dSlot &6%slot% &dhas been set to &a%result%XP&d."
+ typeIntegerWitherHealth: "&dType in chat an integer value to set Wither's Health."
+ typeStringWitherName: "&dType in chat to set Wither's Name."
+ typeStringWitherBarTitle: "&dType in chat to set Wither's Boss Bar Title."
+ typeIntegerAddWitherExpDrop: "&dType in chat an integer value to add exp."
+ typeIntegerSetWitherExpDrop: "&dType in chat an integer Value to set exp to slot."
  errorValueNotInteger: "&cERROR: %value% is not a number."
 DefaultEnderDragon:
   Name: Ender Dragon
@@ -35,6 +49,23 @@ DefaultEnderDragon:
   Bar:
     Title: '&fEnder Dragon'
     Color: PINK
+    Style: SOLID
+    Visible: true
+    Flag:
+      CREATE_FOG: true
+      DARKEN_SKY: false
+      PLAY_BOSS_MUSIC: true
+DefaultWither:
+  Name: Wither
+  AI: true
+  Glow: RESET
+  Health: 450
+  XPDropRadius: 10
+  XPDrops:
+  - 50
+  Bar:
+    Title: '&fWither'
+    Color: PURPLE
     Style: SOLID
     Visible: true
     Flag:

@@ -1,5 +1,5 @@
 name: MCBossUtils
-version: 0.2
+version: 0.3
 description: Configure Bosses
 main: com.Jackalantern29.MCBossUtils.Main
 author: Jackalantern29
@@ -9,6 +9,12 @@ commands:
  edragonutils:
   description: Basic command for Ender Dragons.
   aliases: [edu, edragu]
+  permission: edragutils
+  permission-message: You do not have permission to use this command.
+  usage: "Usage: /<command>."
+ witherutils:
+  description: Basic command for Withers.
+  aliases: [wu, witheru]
   permission: edragutils
   permission-message: You do not have permission to use this command.
   usage: "Usage: /<command>."
